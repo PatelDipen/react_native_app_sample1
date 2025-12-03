@@ -27,7 +27,9 @@
     "passwordPlaceholder": "Enter your password",
     "emailRequired": "Email is required",
     "passwordRequired": "Password is required",
-    "invalidEmail": "Invalid email address"
+    "invalidEmail": "Invalid email address",
+    "loginFailed": "Login failed. Please check your credentials.",
+    "registerFailed": "Registration failed. Please try again."
   },
   "home": {
     "title": "Home",

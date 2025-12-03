@@ -1,4 +1,11 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, { useCallback } from 'react';
 import {
   FormProvider,
@@ -10,11 +17,15 @@ import { AuthStackNavigationProps } from '@/navigation/AuthNavigator';
 import { ScreenWrapper, ControlledTextInput } from '@/components';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SignInFormData, useSignInForm } from '@/hooks/form/useSignInForm';
+import { useLogin } from '@/hooks/api/useAuth';
+import { useGlobalLoading } from '@/store/loadingStore';
 
 export type SigninProps = AuthStackNavigationProps<AUTH_NAV_SCREENS.SIGNIN>;
 
 export default function Signin({ navigation, route }: SigninProps) {
   const { t } = useTranslation();
+  const loginMutation = useLogin();
+  const isGlobalLoading = useGlobalLoading();
 
   const form = useSignInForm({
     email: route.params?.email || '',
@@ -23,16 +34,28 @@ export default function Signin({ navigation, route }: SigninProps) {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     watch,
   } = form;
 
   const onSubmit: SubmitHandler<SignInFormData> = useCallback(
     async (data: SignInFormData) => {
-      console.log('Form Submit:', data);
+      try {
+        await loginMutation.mutateAsync({
+          userName: data.email,
+          password: data.password,
+        });
+        // Navigation handled automatically by auth state change
+      } catch (error) {
+        Alert.alert(
+          t('common.error'),
+          error instanceof Error ? error.message : t('auth.loginFailed'),
+        );
+      }
     },
-    [],
+    [loginMutation, t],
   );
+
   const onError: SubmitErrorHandler<SignInFormData> = useCallback(
     formErrors => {
       console.log('Form Errors:', formErrors);
@@ -41,9 +64,14 @@ export default function Signin({ navigation, route }: SigninProps) {
   );
 
   const email = watch('email');
+  const isLoading = isSubmitting || loginMutation.isPending || isGlobalLoading;
 
   return (
-    <ScreenWrapper headerTitle={t('auth.signIn')} keyboardAvoiding>
+    <ScreenWrapper
+      headerTitle={t('auth.signIn')}
+      keyboardAvoiding
+      loading={isGlobalLoading}
+    >
       <FormProvider {...form}>
         <View style={styles.container}>
           <ControlledTextInput
@@ -55,6 +83,7 @@ export default function Signin({ navigation, route }: SigninProps) {
             autoCapitalize="none"
             leftIcon="mail-outline"
             required
+            editable={!isLoading}
           />
           <ControlledTextInput
             control={control}
@@ -63,13 +92,14 @@ export default function Signin({ navigation, route }: SigninProps) {
             placeholder={t('auth.passwordPlaceholder')}
             isPassword
             required
+            editable={!isLoading}
           />
 
           <View style={styles.buttonContainer}>
             <Button
-              title={isSubmitting ? 'Signing in...' : t('auth.signIn')}
+              title={isLoading ? t('common.loading') : t('auth.signIn')}
               onPress={handleSubmit(onSubmit, onError)}
-              disabled={isSubmitting}
+              disabled={isLoading}
             />
           </View>
 
@@ -77,6 +107,7 @@ export default function Signin({ navigation, route }: SigninProps) {
             onPress={() =>
               navigation.navigate(AUTH_NAV_SCREENS.SIGNUP, { email })
             }
+            disabled={isLoading}
           >
             <Text style={styles.helperText}>
               {t('auth.dontHaveAccount')}
