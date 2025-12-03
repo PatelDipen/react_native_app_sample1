@@ -1,0 +1,57 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "invalidEmail": "Invalid email address"
+  },
+  "home": {
+    "title": "Home",
+    "greeting": "Hello, {{name}}!"
+  },
+  "claims": {
+    "title": "Claims",
+    "newClaim": "New Claim",
+    "claimStatus": "Claim Status",
+    "noClaims": "No claims found"
+  },
+  "insurance": {
+    "title": "Insurance",
+    "policyDetails": "Policy Details",
+    "renewPolicy": "Renew Policy"
+  },
+  "account": {
+    "title": "Account",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "network": "Network error. Please check your connection.",
+    "unauthorized": "You are not authorized"
+  }
+}

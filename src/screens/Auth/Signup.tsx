@@ -10,7 +10,7 @@ export default function Signup({ navigation, route }: SignupProps) {
   const { email } = route.params;
 
   return (
-    <ScreenWrapper headerTitle="Sign Up" keyboardAvoiding>
+    <ScreenWrapper headerTitle="Sign Up" keyboardAvoiding showBackButton>
       <View style={styles.container}>
         <Text>Sign-Up</Text>
         {email && <Text>Email: {email}</Text>}

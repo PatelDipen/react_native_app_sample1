@@ -1,3 +1,3 @@
 export const useAuth = () => {
-  return { isUserLoggedIn: true };
+  return { isUserLoggedIn: false };
 };
