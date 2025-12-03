@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import {
   ACCOUNT_STACK_SCREENS,
   BOTTOM_TAB_NAV_SCREENS,
@@ -28,6 +28,8 @@ import RenewPolicy from '@/screens/Insurance/RenewPolicy';
 import AccountMain from '@/screens/Account/AccountMain';
 import Settings from '@/screens/Account/Settings';
 import Profile from '@/screens/Account/Profile';
+import { StyleSheet, View } from 'react-native';
+import { Neutrals, PRIMARY_COLOR } from '@/theme/style';
 
 // Home Stack Navigator
 export type HomeStackParamList = {
@@ -206,65 +208,101 @@ export type BottomTabNavigationProps<T extends keyof BottomTabParamList> = {
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function MainNavigator() {
+  const renderTabIcon = useCallback((focused: boolean, name: string) => {
+    let iconName: string = '';
+
+    if (name === BOTTOM_TAB_NAV_SCREENS.HOME) {
+      iconName = focused ? 'home' : 'home-outline';
+    } else if (name === BOTTOM_TAB_NAV_SCREENS.CLAIM) {
+      iconName = focused ? 'document-text' : 'document-text-outline';
+    } else if (name === BOTTOM_TAB_NAV_SCREENS.BUY) {
+      iconName = focused ? 'cart' : 'cart-outline';
+    } else if (name === BOTTOM_TAB_NAV_SCREENS.INSURANCE) {
+      iconName = focused ? 'shield-checkmark' : 'shield-checkmark-outline';
+    } else if (name === BOTTOM_TAB_NAV_SCREENS.ACCOUNT) {
+      iconName = focused ? 'person' : 'person-outline';
+    }
+
+    return iconName ? (
+      focused ? (
+        <View style={styles.labelFocusedContainer}>
+          <View style={styles.borderStyle} />
+          <Icon
+            name={iconName}
+            size={24}
+            color={PRIMARY_COLOR}
+            style={styles.iconStyle}
+          />
+        </View>
+      ) : (
+        <View style={styles.labelContainer}>
+          <Icon
+            name={iconName}
+            size={24}
+            color={Neutrals.grape}
+            style={styles.iconStyle}
+          />
+        </View>
+      )
+    ) : null;
+  }, []);
+
   return (
     <BottomTab.Navigator
       initialRouteName={BOTTOM_TAB_NAV_SCREENS.HOME}
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#8E8E93',
-      }}
+        tabBarIcon: ({ focused }) => renderTabIcon(focused, route.name),
+      })}
     >
       <BottomTab.Screen
         name={BOTTOM_TAB_NAV_SCREENS.HOME}
         component={HomeStackNavigator}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home-outline" color={color} size={size} />
-          ),
-        }}
       />
       <BottomTab.Screen
         name={BOTTOM_TAB_NAV_SCREENS.CLAIM}
         component={ClaimStackNavigator}
-        options={{
-          tabBarLabel: 'Claim',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="document-text-outline" color={color} size={size} />
-          ),
-        }}
       />
       <BottomTab.Screen
         name={BOTTOM_TAB_NAV_SCREENS.BUY}
         component={BuyStackNavigator}
         options={{
-          tabBarLabel: 'Buy',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="cart-outline" color={color} size={size} />
-          ),
+          tabBarStyle: { display: 'none' },
         }}
       />
       <BottomTab.Screen
         name={BOTTOM_TAB_NAV_SCREENS.INSURANCE}
         component={InsuranceStackNavigator}
-        options={{
-          tabBarLabel: 'Insurance',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="shield-checkmark-outline" color={color} size={size} />
-          ),
-        }}
       />
       <BottomTab.Screen
         name={BOTTOM_TAB_NAV_SCREENS.ACCOUNT}
         component={AccountStackNavigator}
-        options={{
-          tabBarLabel: 'Account',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="person-outline" color={color} size={size} />
-          ),
-        }}
       />
     </BottomTab.Navigator>
   );
 }
+
+export const BottomTabNavigatorStyle = {
+  primary: Neutrals.grape,
+  secondary: Neutrals.cultured,
+  border: Neutrals.lightPurple,
+};
+
+const styles = StyleSheet.create({
+  labelContainer: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  labelFocusedContainer: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  borderStyle: {
+    borderTopWidth: 2,
+    width: 40,
+    borderTopColor: BottomTabNavigatorStyle.primary,
+  },
+  iconStyle: {
+    marginTop: 0,
+  },
+});

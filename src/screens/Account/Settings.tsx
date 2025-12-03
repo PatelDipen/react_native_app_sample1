@@ -1,12 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { ScreenWrapper } from '@/components';
 
 export default function Settings() {
   return (
-    <View>
-      <Text>Settings</Text>
-    </View>
+    <ScreenWrapper headerTitle="Settings" showBackButton scrollable>
+      <View style={styles.container}>
+        <Text>Settings</Text>
+      </View>
+    </ScreenWrapper>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+});
