@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { useGlobalLoading } from '@/hooks/useGlobalLoading';
 import Header from './Header';
 import { Neutrals } from '@/theme/style';
 import { isTablet, wp } from '@/utils/responsive';
@@ -50,6 +51,12 @@ export default function ScreenWrapper({
   const contentWidth =
     tablet && centerContent ? Math.min(maxWidth, wp(85)) : '100%';
 
+  // Use React Query's global loading state
+  const isGlobalLoading = useGlobalLoading();
+
+  // Combine prop loading with global loading
+  const isLoading = loading || isGlobalLoading;
+
   // Default back button behavior
   const handleBackPress = () => {
     if (onBackPress) {
@@ -60,7 +67,7 @@ export default function ScreenWrapper({
   };
 
   const renderContent = () => {
-    if (loading) {
+    if (isLoading) {
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Neutrals.grape} />

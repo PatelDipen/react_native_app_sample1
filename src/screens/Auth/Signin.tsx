@@ -18,14 +18,12 @@ import { ScreenWrapper, ControlledTextInput } from '@/components';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SignInFormData, useSignInForm } from '@/hooks/form/useSignInForm';
 import { useLogin } from '@/hooks/api/useAuth';
-import { useGlobalLoading } from '@/store/loadingStore';
 
 export type SigninProps = AuthStackNavigationProps<AUTH_NAV_SCREENS.SIGNIN>;
 
 export default function Signin({ navigation, route }: SigninProps) {
   const { t } = useTranslation();
   const loginMutation = useLogin();
-  const isGlobalLoading = useGlobalLoading();
 
   const form = useSignInForm({
     email: route.params?.email || '',
@@ -64,14 +62,10 @@ export default function Signin({ navigation, route }: SigninProps) {
   );
 
   const email = watch('email');
-  const isLoading = isSubmitting || loginMutation.isPending || isGlobalLoading;
+  const isLoading = isSubmitting || loginMutation.isPending;
 
   return (
-    <ScreenWrapper
-      headerTitle={t('auth.signIn')}
-      keyboardAvoiding
-      loading={isGlobalLoading}
-    >
+    <ScreenWrapper headerTitle={t('auth.signIn')} keyboardAvoiding>
       <FormProvider {...form}>
         <View style={styles.container}>
           <ControlledTextInput

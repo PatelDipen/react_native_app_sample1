@@ -2,14 +2,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { ScreenWrapper } from '@/components';
 import { useCurrentUser } from '@/hooks/api/useAuth';
-import { useGlobalLoading } from '@/store/loadingStore';
 
 export default function HomeMain() {
-  const { data: user, isLoading, error } = useCurrentUser();
-  const isGlobalLoading = useGlobalLoading();
+  const { data: user, error } = useCurrentUser();
 
   return (
-    <ScreenWrapper headerTitle="Home" scrollable loading={isGlobalLoading}>
+    <ScreenWrapper headerTitle="Home" scrollable>
       <View style={styles.container}>
         {error ? (
           <Text style={styles.errorText}>Error loading profile</Text>

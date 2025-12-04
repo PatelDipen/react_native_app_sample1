@@ -5,7 +5,6 @@ import axios, {
 } from 'axios';
 import Config from '@/config/config';
 import { useAuthStore } from '@/store/authStore';
-import { useLoadingStore } from '@/store/loadingStore';
 import { getTokens, storeTokens } from '@/utils/storage';
 
 // Create axios instance
@@ -17,16 +16,9 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor - Add auth token and start loading
+// Request interceptor - Add auth token
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    // Start loading indicator
-    const requestKey = `${config.method}_${config.url}`;
-    useLoadingStore.getState().startLoading(requestKey);
-
-    // Add request key to config for later reference
-    (config as any).requestKey = requestKey;
-
     // Add auth token
     const tokens = await getTokens();
     if (tokens?.accessToken) {
@@ -48,24 +40,13 @@ api.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
-    // Stop loading on error
-    const requestKey = (error.config as any)?.requestKey;
-    if (requestKey) {
-      useLoadingStore.getState().stopLoading(requestKey);
-    }
     return Promise.reject(error);
   },
 );
 
-// Response interceptor - Handle token refresh and stop loading
+// Response interceptor - Handle token refresh
 api.interceptors.response.use(
   response => {
-    // Stop loading indicator
-    const requestKey = (response.config as any)?.requestKey;
-    if (requestKey) {
-      useLoadingStore.getState().stopLoading(requestKey);
-    }
-
     // Debug logging
     if (__DEV__) {
       console.log('✅ API Response:', {
@@ -82,13 +63,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
-      requestKey?: string;
     };
-
-    // Stop loading indicator
-    if (originalRequest?.requestKey) {
-      useLoadingStore.getState().stopLoading(originalRequest.requestKey);
-    }
 
     // Debug logging
     if (__DEV__) {
@@ -130,11 +105,6 @@ api.interceptors.response.use(
           // Retry original request with new token
           if (originalRequest.headers) {
             originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
-          }
-
-          // Start loading again for retry
-          if (originalRequest.requestKey) {
-            useLoadingStore.getState().startLoading(originalRequest.requestKey);
           }
 
           return api(originalRequest);
