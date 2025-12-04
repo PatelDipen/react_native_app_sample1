@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useCallback } from 'react';
 import {
   FormProvider,
@@ -38,20 +31,14 @@ export default function Signin({ navigation, route }: SigninProps) {
 
   const onSubmit: SubmitHandler<SignInFormData> = useCallback(
     async (data: SignInFormData) => {
-      try {
-        await loginMutation.mutateAsync({
-          userName: data.email,
-          password: data.password,
-        });
-        // Navigation handled automatically by auth state change
-      } catch (error) {
-        Alert.alert(
-          t('common.error'),
-          error instanceof Error ? error.message : t('auth.loginFailed'),
-        );
-      }
+      await loginMutation.mutateAsync({
+        userName: data.email,
+        password: data.password,
+      });
+      // Navigation handled automatically by auth state change
+      // Errors handled globally by QueryClient
     },
-    [loginMutation, t],
+    [loginMutation],
   );
 
   const onError: SubmitErrorHandler<SignInFormData> = useCallback(

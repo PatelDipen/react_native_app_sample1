@@ -33,10 +33,6 @@ export const useLogin = () => {
       });
       queryClient.invalidateQueries({ queryKey: authKeys.currentUser() });
     },
-    onError: error => {
-      const errorMessage = handleApiError(error);
-      throw new Error(errorMessage);
-    },
   });
 };
 
@@ -55,10 +51,6 @@ export const useRegister = () => {
         refreshToken: response.refreshToken,
       });
       queryClient.invalidateQueries({ queryKey: authKeys.currentUser() });
-    },
-    onError: error => {
-      const errorMessage = handleApiError(error);
-      throw new Error(errorMessage);
     },
   });
 };
@@ -110,10 +102,6 @@ export const useUpdateProfile = () => {
     onSuccess: updatedUser => {
       queryClient.setQueryData(authKeys.currentUser(), updatedUser);
       queryClient.invalidateQueries({ queryKey: authKeys.currentUser() });
-    },
-    onError: error => {
-      const errorMessage = handleApiError(error);
-      throw new Error(errorMessage);
     },
   });
 };
