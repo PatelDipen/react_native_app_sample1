@@ -7,7 +7,6 @@
 
 import React, { useEffect } from 'react';
 import RootNavigation from '@/navigation/RootNavigation';
-import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/authStore';
@@ -24,7 +23,6 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const isDarkMode = useColorScheme() === 'dark';
   const loadStoredAuth = useAuthStore(state => state.loadStoredAuth);
 
   // Load stored authentication on app start
@@ -33,13 +31,14 @@ export default function App() {
   }, [loadStoredAuth]);
 
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaProvider>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <RootNavigation />
-        </SafeAreaProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
+    <React.StrictMode>
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaProvider>
+            <RootNavigation />
+          </SafeAreaProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </React.StrictMode>
   );
 }
