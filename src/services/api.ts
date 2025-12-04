@@ -30,7 +30,19 @@ api.interceptors.request.use(
     // Add auth token
     const tokens = await getTokens();
     if (tokens?.accessToken) {
-      config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+      config.headers.Authorization = tokens.accessToken;
+    }
+
+    // Debug logging
+    if (__DEV__) {
+      console.log('🚀 API Request:', {
+        method: config.method?.toUpperCase(),
+        url: config.url,
+        baseURL: config.baseURL,
+        headers: config.headers,
+        data: config.data,
+        params: config.params,
+      });
     }
 
     return config;
@@ -53,6 +65,18 @@ api.interceptors.response.use(
     if (requestKey) {
       useLoadingStore.getState().stopLoading(requestKey);
     }
+
+    // Debug logging
+    if (__DEV__) {
+      console.log('✅ API Response:', {
+        method: response.config.method?.toUpperCase(),
+        url: response.config.url,
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+      });
+    }
+
     return response;
   },
   async (error: AxiosError) => {
@@ -64,6 +88,18 @@ api.interceptors.response.use(
     // Stop loading indicator
     if (originalRequest?.requestKey) {
       useLoadingStore.getState().stopLoading(originalRequest.requestKey);
+    }
+
+    // Debug logging
+    if (__DEV__) {
+      console.log('❌ API Error:', {
+        method: originalRequest?.method?.toUpperCase(),
+        url: originalRequest?.url,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        errorMessage: error.message,
+        errorData: error.response?.data,
+      });
     }
 
     // Handle token refresh on 401

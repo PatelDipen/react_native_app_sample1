@@ -34,6 +34,8 @@ export interface RefreshTokenResponse {
  */
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await api.post<LoginResponse>('/login', data);
+  // Push token from header to body for consistency
+  response.data.accessToken = response.headers.token;
   return response.data;
 };
 
@@ -58,7 +60,7 @@ export const logout = async (): Promise<void> => {
  * Get current user profile
  */
 export const getCurrentUser = async (): Promise<User> => {
-  const response = await api.get<User>('/auth/me');
+  const response = await api.get<User>('/profile');
   return response.data;
 };
 
