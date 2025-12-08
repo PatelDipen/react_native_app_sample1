@@ -9,7 +9,6 @@ import {
   RegisterRequest,
 } from '@/services/auth.service';
 import { useAuthStore } from '@/store/authStore';
-import { handleApiError } from '@/services/api';
 
 // Query keys
 export const authKeys = {
@@ -24,6 +23,7 @@ export const useLogin = () => {
   const { setAuth } = useAuthStore();
   const queryClient = useQueryClient();
 
+  // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: (data: LoginRequest) => login(data),
     onSuccess: response => {
@@ -43,6 +43,7 @@ export const useRegister = () => {
   const { setAuth } = useAuthStore();
   const queryClient = useQueryClient();
 
+  // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: (data: RegisterRequest) => register(data),
     onSuccess: response => {
@@ -62,6 +63,7 @@ export const useLogout = () => {
   const { clearAuth } = useAuthStore();
   const queryClient = useQueryClient();
 
+  // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
@@ -82,6 +84,7 @@ export const useLogout = () => {
 export const useCurrentUser = (enabled: boolean = true) => {
   const { isAuthenticated } = useAuthStore();
 
+  // useCustomQuery can be used here if additional logging/tracking is needed
   return useQuery({
     queryKey: authKeys.currentUser(),
     queryFn: getCurrentUser,
@@ -97,6 +100,7 @@ export const useCurrentUser = (enabled: boolean = true) => {
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
 
+  // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: updateProfile,
     onSuccess: updatedUser => {
