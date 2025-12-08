@@ -14,6 +14,31 @@ const mockTokens = {
   refreshToken: 'mock-refresh-token-456',
 };
 
+// Mock insurance data
+const mockInsurances = [
+  {
+    insuranceId: '1',
+    name: 'car insurance',
+    insuredSum: 100000,
+  },
+  {
+    insuranceId: '2',
+    name: 'medical insurance',
+    insuredSum: 200000,
+  },
+];
+
+const mockClaims = [
+  {
+    insuranceId: '1',
+    claimedAmount: 1000,
+  },
+  {
+    insuranceId: '2',
+    claimedAmount: 4000,
+  },
+];
+
 export const setupMockHandlers = (mock: MockAdapter) => {
   // Login
   mock.onPost(`${Config.API_BASE_URL}/login`).reply(config => {
@@ -54,9 +79,9 @@ export const setupMockHandlers = (mock: MockAdapter) => {
   mock.onGet(`${Config.API_BASE_URL}/profile`).reply(config => {
     const authHeader = config.headers?.Authorization;
 
-    if (!authHeader || !authHeader.includes('Bearer')) {
-      return [401, { message: 'Unauthorized' }];
-    }
+    // if (!authHeader || !authHeader.includes('Bearer')) {
+    //   return [401, { message: 'Unauthorized' }];
+    // }
 
     return [200, mockUser];
   });
@@ -84,6 +109,12 @@ export const setupMockHandlers = (mock: MockAdapter) => {
     accessToken: 'new-mock-access-token-789',
     refreshToken: 'new-mock-refresh-token-012',
   });
+
+  // Get user's insurances
+  mock.onGet(`${Config.API_BASE_URL}/myInsurance`).reply(200, mockInsurances);
+
+  // Get user's claims
+  mock.onGet(`${Config.API_BASE_URL}/myClaim`).reply(200, mockClaims);
 
   // Pass through any unmatched requests
   mock.onAny().passThrough();
