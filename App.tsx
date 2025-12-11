@@ -8,12 +8,7 @@
 import React, { useEffect } from 'react';
 import RootNavigation from '@/navigation/RootNavigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {
-  QueryClient,
-  QueryClientProvider,
-  QueryCache,
-  MutationCache,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
 import { useAuthStore } from '@/store/authStore';
 import { ErrorBoundary } from '@/components';
@@ -57,7 +52,7 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const loadStoredAuth = useAuthStore(state => state.loadStoredAuth);
+  const loadStoredAuth = useAuthStore((state) => state.loadStoredAuth);
 
   // Load stored authentication on app start
   useEffect(() => {

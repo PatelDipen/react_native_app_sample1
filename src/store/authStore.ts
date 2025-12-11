@@ -1,10 +1,5 @@
 import { create } from 'zustand';
-import {
-  AuthTokens,
-  getTokens,
-  removeTokens,
-  storeTokens,
-} from '@/utils/storage';
+import { AuthTokens, getTokens, removeTokens, storeTokens } from '@/utils/storage';
 
 export interface User {
   id: string;
@@ -26,7 +21,7 @@ interface AuthState {
   updateTokens: (tokens: AuthTokens) => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>(set => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   tokens: null,
   isAuthenticated: false,
@@ -70,7 +65,7 @@ export const useAuthStore = create<AuthState>(set => ({
     }
   },
 
-  updateTokens: async tokens => {
+  updateTokens: async (tokens) => {
     await storeTokens(tokens);
     set({ tokens });
   },

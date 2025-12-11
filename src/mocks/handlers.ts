@@ -41,7 +41,7 @@ const mockClaims = [
 
 export const setupMockHandlers = (mock: MockAdapter) => {
   // Login
-  mock.onPost(`${Config.API_BASE_URL}/login`).reply(config => {
+  mock.onPost(`${Config.API_BASE_URL}/login`).reply((config) => {
     const body = JSON.parse(config.data);
 
     if (body.userName === 'test@example.com' && body.password === 'password') {
@@ -58,7 +58,7 @@ export const setupMockHandlers = (mock: MockAdapter) => {
   });
 
   // Register
-  mock.onPost(`${Config.API_BASE_URL}/register`).reply(config => {
+  mock.onPost(`${Config.API_BASE_URL}/register`).reply((config) => {
     const body = JSON.parse(config.data);
 
     return [
@@ -76,8 +76,8 @@ export const setupMockHandlers = (mock: MockAdapter) => {
   });
 
   // Get current user profile
-  mock.onGet(`${Config.API_BASE_URL}/profile`).reply(config => {
-    const authHeader = config.headers?.Authorization;
+  mock.onGet(`${Config.API_BASE_URL}/profile`).reply(() => {
+    // const authHeader = config.headers?.Authorization;
 
     // if (!authHeader || !authHeader.includes('Bearer')) {
     //   return [401, { message: 'Unauthorized' }];
@@ -87,7 +87,7 @@ export const setupMockHandlers = (mock: MockAdapter) => {
   });
 
   // Update profile
-  mock.onPut(`${Config.API_BASE_URL}/auth/profile`).reply(config => {
+  mock.onPut(`${Config.API_BASE_URL}/auth/profile`).reply((config) => {
     const body = JSON.parse(config.data);
 
     return [

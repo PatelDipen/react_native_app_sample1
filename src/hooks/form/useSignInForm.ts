@@ -9,11 +9,7 @@ export type SignInFormData = {
 
 export const useSignInForm = (initialValues?: Partial<SignInFormData>) => {
   const signinSchema = yup.object({
-    email: yup
-      .string()
-      .required('Email is required')
-      .email('Invalid email address')
-      .trim(),
+    email: yup.string().required('Email is required').email('Invalid email address').trim(),
     password: yup
       .string()
       .required('Password is required')

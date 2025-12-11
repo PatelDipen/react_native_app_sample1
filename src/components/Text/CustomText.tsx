@@ -5,11 +5,7 @@ interface CustomTextProps extends TextProps {
   children: React.ReactNode;
 }
 
-export const CustomText: React.FC<CustomTextProps> = ({
-  children,
-  style,
-  ...rest
-}) => {
+export const CustomText: React.FC<CustomTextProps> = ({ children, style, ...rest }) => {
   return (
     <Text style={[styles.defaultText, style]} {...rest}>
       {children}

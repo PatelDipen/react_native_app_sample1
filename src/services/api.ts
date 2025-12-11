@@ -1,8 +1,4 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import Config from '@/config/config';
 import { useAuthStore } from '@/store/authStore';
 import { getTokens, storeTokens } from '@/utils/storage';
@@ -41,12 +37,12 @@ api.interceptors.request.use(
   },
   (error: AxiosError) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 // Response interceptor - Handle token refresh
 api.interceptors.response.use(
-  response => {
+  (response) => {
     // Debug logging
     if (__DEV__) {
       console.log('✅ API Response:', {
@@ -86,12 +82,9 @@ api.interceptors.response.use(
 
         if (tokens?.refreshToken) {
           // Attempt to refresh the token
-          const response = await axios.post(
-            `${Config.API_BASE_URL}/auth/refresh`,
-            {
-              refreshToken: tokens.refreshToken,
-            },
-          );
+          const response = await axios.post(`${Config.API_BASE_URL}/auth/refresh`, {
+            refreshToken: tokens.refreshToken,
+          });
 
           const newTokens = {
             accessToken: response.data.accessToken,
@@ -117,7 +110,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export default api;
@@ -128,9 +121,7 @@ export default api;
 export const handleApiError = (error: unknown): string => {
   if (axios.isAxiosError(error)) {
     if (error.response) {
-      return (
-        error.response.data?.message || error.message || 'An error occurred'
-      );
+      return error.response.data?.message || error.message || 'An error occurred';
     } else if (error.request) {
       return 'Network error. Please check your connection.';
     }

@@ -1,10 +1,6 @@
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useCallback } from 'react';
-import {
-  FormProvider,
-  SubmitErrorHandler,
-  SubmitHandler,
-} from 'react-hook-form';
+import { FormProvider, SubmitErrorHandler, SubmitHandler } from 'react-hook-form';
 import { AUTH_NAV_SCREENS } from '@/navigation/NavigationConstants';
 import { AuthStackNavigationProps } from '@/navigation/AuthNavigator';
 import { ScreenWrapper, ControlledTextInput } from '@/components';
@@ -38,15 +34,12 @@ export default function Signin({ navigation, route }: SigninProps) {
       // Navigation handled automatically by auth state change
       // Errors handled globally by QueryClient
     },
-    [loginMutation],
+    [loginMutation]
   );
 
-  const onError: SubmitErrorHandler<SignInFormData> = useCallback(
-    formErrors => {
-      console.log('Form Errors:', formErrors);
-    },
-    [],
-  );
+  const onError: SubmitErrorHandler<SignInFormData> = useCallback((formErrors) => {
+    console.log('Form Errors:', formErrors);
+  }, []);
 
   const email = watch('email');
   const isLoading = isSubmitting || loginMutation.isPending;
@@ -85,9 +78,7 @@ export default function Signin({ navigation, route }: SigninProps) {
           </View>
 
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(AUTH_NAV_SCREENS.SIGNUP, { email })
-            }
+            onPress={() => navigation.navigate(AUTH_NAV_SCREENS.SIGNUP, { email })}
             disabled={isLoading}
           >
             <Text style={styles.helperText}>

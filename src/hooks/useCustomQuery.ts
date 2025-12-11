@@ -22,7 +22,7 @@ export const useCustomQuery = <
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
 >(
-  options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+  options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>
 ) => {
   const startTimeRef = useRef<number>(Date.now());
 
@@ -45,19 +45,10 @@ export const useCustomQuery = <
 
       if (query.isError) {
         const duration = Date.now() - startTimeRef.current;
-        console.error(
-          `❌ [Query] Error: ${queryKey} (${duration}ms)`,
-          query.error,
-        );
+        console.error(`❌ [Query] Error: ${queryKey} (${duration}ms)`, query.error);
       }
     }
-  }, [
-    query.isFetching,
-    query.isSuccess,
-    query.isError,
-    query.error,
-    options.queryKey,
-  ]);
+  }, [query.isFetching, query.isSuccess, query.isError, query.error, options.queryKey]);
 
   // Track query in custom loading store if needed
   useEffect(() => {
@@ -83,13 +74,11 @@ export const useCustomMutation = <
   TVariables = void,
   TContext = unknown,
 >(
-  options: UseMutationOptions<TData, TError, TVariables, TContext>,
+  options: UseMutationOptions<TData, TError, TVariables, TContext>
 ) => {
   const startTimeRef = useRef<number>(0);
   const mutationNameRef = useRef<string>(
-    options.mutationKey
-      ? JSON.stringify(options.mutationKey)
-      : 'anonymous-mutation',
+    options.mutationKey ? JSON.stringify(options.mutationKey) : 'anonymous-mutation'
   );
 
   const mutation = useMutation({
@@ -97,10 +86,7 @@ export const useCustomMutation = <
     onMutate: async (variables, mutationContext) => {
       if (__DEV__) {
         startTimeRef.current = Date.now();
-        console.log(
-          `🚀 [Mutation] Started: ${mutationNameRef.current}`,
-          variables,
-        );
+        console.log(`🚀 [Mutation] Started: ${mutationNameRef.current}`, variables);
       }
 
       // Call original onMutate if exists and return its result
@@ -114,9 +100,7 @@ export const useCustomMutation = <
     onSuccess: (data, variables, context, mutationContext) => {
       if (__DEV__) {
         const duration = Date.now() - startTimeRef.current;
-        console.log(
-          `✅ [Mutation] Success: ${mutationNameRef.current} (${duration}ms)`,
-        );
+        console.log(`✅ [Mutation] Success: ${mutationNameRef.current} (${duration}ms)`);
       }
 
       // Call original onSuccess if exists
@@ -125,10 +109,7 @@ export const useCustomMutation = <
     onError: (error, variables, context, mutationContext) => {
       if (__DEV__) {
         const duration = Date.now() - startTimeRef.current;
-        console.error(
-          `❌ [Mutation] Error: ${mutationNameRef.current} (${duration}ms)`,
-          error,
-        );
+        console.error(`❌ [Mutation] Error: ${mutationNameRef.current} (${duration}ms)`, error);
       }
 
       // Call original onError if exists

@@ -1,16 +1,12 @@
 import React from 'react';
-import {
-  Control,
-  Controller,
-  FieldValues,
-  Path,
-  RegisterOptions,
-} from 'react-hook-form';
+import { Control, Controller, FieldValues, Path, RegisterOptions } from 'react-hook-form';
 import TextInputField from '../Text/TextInputField';
 import { TextInputProps } from 'react-native';
 
-interface ControlledTextInputProps<T extends FieldValues>
-  extends Omit<TextInputProps, 'value' | 'onChangeText'> {
+interface ControlledTextInputProps<T extends FieldValues> extends Omit<
+  TextInputProps,
+  'value' | 'onChangeText'
+> {
   control: Control<T>;
   name: Path<T>;
   rules?: RegisterOptions<T>;
@@ -45,10 +41,7 @@ export default function ControlledTextInput<T extends FieldValues>({
       control={control}
       name={name}
       rules={rules}
-      render={({
-        field: { onChange, onBlur, value },
-        fieldState: { error },
-      }) => (
+      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
         <TextInputField
           label={label}
           value={value}

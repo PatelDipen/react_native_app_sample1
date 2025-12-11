@@ -42,9 +42,7 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
 /**
  * Register new user
  */
-export const register = async (
-  data: RegisterRequest,
-): Promise<RegisterResponse> => {
+export const register = async (data: RegisterRequest): Promise<RegisterResponse> => {
   const response = await api.post<RegisterResponse>('/register', data);
   return response.data;
 };

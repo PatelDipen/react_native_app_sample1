@@ -30,9 +30,7 @@ export default function Header({
         )}
       </View>
 
-      <View style={styles.centerSection}>
-        {title && <Text style={styles.title}>{title}</Text>}
-      </View>
+      <View style={styles.centerSection}>{title && <Text style={styles.title}>{title}</Text>}</View>
 
       <View style={styles.rightSection}>{rightComponent}</View>
     </View>

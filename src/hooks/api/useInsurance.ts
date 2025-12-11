@@ -56,11 +56,11 @@ export const useInsuranceWithClaims = () => {
 
     // Create a map of claims by insuranceId for O(1) lookup
     const claimsMap = new Map(
-      claimsQuery.data.map(claim => [claim.insuranceId, claim.claimedAmount]),
+      claimsQuery.data.map((claim) => [claim.insuranceId, claim.claimedAmount])
     );
 
     // Merge insurances with claims
-    return insurancesQuery.data.map(insurance => {
+    return insurancesQuery.data.map((insurance) => {
       const claimedAmount = claimsMap.get(insurance.insuranceId) ?? 0;
       return {
         ...insurance,

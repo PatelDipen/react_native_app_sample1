@@ -48,8 +48,7 @@ export default function ScreenWrapper({
 }: ScreenWrapperProps) {
   const navigation = useNavigation();
   const tablet = isTablet();
-  const contentWidth =
-    tablet && centerContent ? Math.min(maxWidth, wp(85)) : '100%';
+  const contentWidth = tablet && centerContent ? Math.min(maxWidth, wp(85)) : '100%';
 
   // Use React Query's global loading state
   const isGlobalLoading = useGlobalLoading();
@@ -75,8 +74,7 @@ export default function ScreenWrapper({
       );
     }
 
-    const contentContainer =
-      tablet && centerContent ? styles.centeredContent : undefined;
+    const contentContainer = tablet && centerContent ? styles.centeredContent : undefined;
 
     if (scrollable) {
       return (
@@ -85,18 +83,14 @@ export default function ScreenWrapper({
           contentContainerStyle={[styles.scrollContent, contentContainer]}
           showsVerticalScrollIndicator={false}
         >
-          <View style={[styles.innerContent, { width: contentWidth }]}>
-            {children}
-          </View>
+          <View style={[styles.innerContent, { width: contentWidth }]}>{children}</View>
         </ScrollView>
       );
     }
 
     return (
       <View style={[styles.content, contentContainer]}>
-        <View style={[styles.innerContent, { width: contentWidth }]}>
-          {children}
-        </View>
+        <View style={[styles.innerContent, { width: contentWidth }]}>{children}</View>
       </View>
     );
   };

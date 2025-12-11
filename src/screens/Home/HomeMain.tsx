@@ -32,16 +32,11 @@ export default function HomeMain() {
           {insuranceError ? (
             <Text style={styles.errorText}>Error loading insurances</Text>
           ) : insurances && insurances.length > 0 ? (
-            insurances.map(insurance => (
-              <InsuranceCard
-                key={insurance.insuranceId}
-                insurance={insurance}
-              />
+            insurances.map((insurance) => (
+              <InsuranceCard key={insurance.insuranceId} insurance={insurance} />
             ))
           ) : (
-            <CustomText style={styles.emptyText}>
-              No insurances found
-            </CustomText>
+            <CustomText style={styles.emptyText}>No insurances found</CustomText>
           )}
         </View>
       </View>

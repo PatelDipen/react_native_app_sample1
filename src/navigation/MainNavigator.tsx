@@ -12,10 +12,7 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-import {
-  createBottomTabNavigator,
-  BottomTabNavigationProp,
-} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeMain from '@/screens/Home/HomeMain';
 import ClaimMain from '@/screens/Claim/ClaimMain';
@@ -49,10 +46,7 @@ const HomeStackNavigator = memo(() => {
       initialRouteName={HOME_STACK_SCREENS.HOME_MAIN}
       screenOptions={{ headerShown: false }}
     >
-      <HomeStack.Screen
-        name={HOME_STACK_SCREENS.HOME_MAIN}
-        component={HomeMain}
-      />
+      <HomeStack.Screen name={HOME_STACK_SCREENS.HOME_MAIN} component={HomeMain} />
     </HomeStack.Navigator>
   );
 });
@@ -77,18 +71,9 @@ const ClaimStackNavigator = memo(() => {
       initialRouteName={CLAIM_STACK_SCREENS.CLAIM_MAIN}
       screenOptions={{ headerShown: false }}
     >
-      <ClaimStack.Screen
-        name={CLAIM_STACK_SCREENS.CLAIM_MAIN}
-        component={ClaimMain}
-      />
-      <ClaimStack.Screen
-        name={CLAIM_STACK_SCREENS.NEW_CLAIM}
-        component={NewClaim}
-      />
-      <ClaimStack.Screen
-        name={CLAIM_STACK_SCREENS.CLAIM_STATUS}
-        component={ClaimStatus}
-      />
+      <ClaimStack.Screen name={CLAIM_STACK_SCREENS.CLAIM_MAIN} component={ClaimMain} />
+      <ClaimStack.Screen name={CLAIM_STACK_SCREENS.NEW_CLAIM} component={NewClaim} />
+      <ClaimStack.Screen name={CLAIM_STACK_SCREENS.CLAIM_STATUS} component={ClaimStatus} />
     </ClaimStack.Navigator>
   );
 });
@@ -123,9 +108,7 @@ export type InsuranceStackParamList = {
   [INSURANCE_STACK_SCREENS.RENEW_POLICY]: undefined;
 };
 
-export type InsuranceStackNavigationProps<
-  T extends keyof InsuranceStackParamList,
-> = {
+export type InsuranceStackNavigationProps<T extends keyof InsuranceStackParamList> = {
   navigation: NativeStackNavigationProp<InsuranceStackParamList, T>;
   route: RouteProp<InsuranceStackParamList, T>;
 };
@@ -146,10 +129,7 @@ const InsuranceStackNavigator = memo(() => {
         name={INSURANCE_STACK_SCREENS.POLICY_DETAILS}
         component={PolicyDetails}
       />
-      <InsuranceStack.Screen
-        name={INSURANCE_STACK_SCREENS.RENEW_POLICY}
-        component={RenewPolicy}
-      />
+      <InsuranceStack.Screen name={INSURANCE_STACK_SCREENS.RENEW_POLICY} component={RenewPolicy} />
     </InsuranceStack.Navigator>
   );
 });
@@ -161,11 +141,10 @@ export type AccountStackParamList = {
   [ACCOUNT_STACK_SCREENS.SETTINGS]: undefined;
 };
 
-export type AccountStackNavigationProps<T extends keyof AccountStackParamList> =
-  {
-    navigation: NativeStackNavigationProp<AccountStackParamList, T>;
-    route: RouteProp<AccountStackParamList, T>;
-  };
+export type AccountStackNavigationProps<T extends keyof AccountStackParamList> = {
+  navigation: NativeStackNavigationProp<AccountStackParamList, T>;
+  route: RouteProp<AccountStackParamList, T>;
+};
 
 const AccountStack = createNativeStackNavigator<AccountStackParamList>();
 
@@ -175,18 +154,9 @@ const AccountStackNavigator = memo(() => {
       initialRouteName={ACCOUNT_STACK_SCREENS.ACCOUNT_MAIN}
       screenOptions={{ headerShown: false }}
     >
-      <AccountStack.Screen
-        name={ACCOUNT_STACK_SCREENS.ACCOUNT_MAIN}
-        component={AccountMain}
-      />
-      <AccountStack.Screen
-        name={ACCOUNT_STACK_SCREENS.PROFILE}
-        component={Profile}
-      />
-      <AccountStack.Screen
-        name={ACCOUNT_STACK_SCREENS.SETTINGS}
-        component={Settings}
-      />
+      <AccountStack.Screen name={ACCOUNT_STACK_SCREENS.ACCOUNT_MAIN} component={AccountMain} />
+      <AccountStack.Screen name={ACCOUNT_STACK_SCREENS.PROFILE} component={Profile} />
+      <AccountStack.Screen name={ACCOUNT_STACK_SCREENS.SETTINGS} component={Settings} />
     </AccountStack.Navigator>
   );
 });
@@ -227,21 +197,11 @@ export default function MainNavigator() {
       focused ? (
         <View style={styles.labelFocusedContainer}>
           <View style={styles.borderStyle} />
-          <Icon
-            name={iconName}
-            size={24}
-            color={PRIMARY_COLOR}
-            style={styles.iconStyle}
-          />
+          <Icon name={iconName} size={24} color={PRIMARY_COLOR} style={styles.iconStyle} />
         </View>
       ) : (
         <View style={styles.labelContainer}>
-          <Icon
-            name={iconName}
-            size={24}
-            color={Neutrals.grape}
-            style={styles.iconStyle}
-          />
+          <Icon name={iconName} size={24} color={Neutrals.grape} style={styles.iconStyle} />
         </View>
       )
     ) : null;
@@ -255,14 +215,8 @@ export default function MainNavigator() {
         tabBarIcon: ({ focused }) => renderTabIcon(focused, route.name),
       })}
     >
-      <BottomTab.Screen
-        name={BOTTOM_TAB_NAV_SCREENS.HOME}
-        component={HomeStackNavigator}
-      />
-      <BottomTab.Screen
-        name={BOTTOM_TAB_NAV_SCREENS.CLAIM}
-        component={ClaimStackNavigator}
-      />
+      <BottomTab.Screen name={BOTTOM_TAB_NAV_SCREENS.HOME} component={HomeStackNavigator} />
+      <BottomTab.Screen name={BOTTOM_TAB_NAV_SCREENS.CLAIM} component={ClaimStackNavigator} />
       <BottomTab.Screen
         name={BOTTOM_TAB_NAV_SCREENS.BUY}
         component={BuyStackNavigator}
@@ -274,10 +228,7 @@ export default function MainNavigator() {
         name={BOTTOM_TAB_NAV_SCREENS.INSURANCE}
         component={InsuranceStackNavigator}
       />
-      <BottomTab.Screen
-        name={BOTTOM_TAB_NAV_SCREENS.ACCOUNT}
-        component={AccountStackNavigator}
-      />
+      <BottomTab.Screen name={BOTTOM_TAB_NAV_SCREENS.ACCOUNT} component={AccountStackNavigator} />
     </BottomTab.Navigator>
   );
 }

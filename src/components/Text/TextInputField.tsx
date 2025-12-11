@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInputProps,
-} from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, TextInputProps } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
   PRIMARY_COLOR,
@@ -119,9 +112,7 @@ export default function TextInputField({
       </View>
 
       {error && <Text style={styles.errorText}>{error}</Text>}
-      {helperText && !error && (
-        <Text style={styles.helperText}>{helperText}</Text>
-      )}
+      {helperText && !error && <Text style={styles.helperText}>{helperText}</Text>}
     </View>
   );
 }

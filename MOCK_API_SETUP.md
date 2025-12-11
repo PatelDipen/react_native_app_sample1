@@ -69,7 +69,7 @@ export const setupMockHandlers = (mock: MockAdapter) => {
   ]);
 
   // POST with request validation
-  mock.onPost(`${Config.API_BASE_URL}/claims`).reply(config => {
+  mock.onPost(`${Config.API_BASE_URL}/claims`).reply((config) => {
     const body = JSON.parse(config.data);
 
     if (!body.type) {
@@ -85,15 +85,13 @@ export const setupMockHandlers = (mock: MockAdapter) => {
   });
 
   // Dynamic URL parameters with regex
-  mock.onGet(new RegExp(`${Config.API_BASE_URL}/users/.*`)).reply(config => {
+  mock.onGet(new RegExp(`${Config.API_BASE_URL}/users/.*`)).reply((config) => {
     const id = config.url?.split('/').pop();
     return [200, { id, name: `User ${id}`, email: `user${id}@example.com` }];
   });
 
   // With network delay (500ms default, change in server.ts)
-  mock
-    .onGet(`${Config.API_BASE_URL}/slow`)
-    .reply(200, { data: 'Delayed response' });
+  mock.onGet(`${Config.API_BASE_URL}/slow`).reply(200, { data: 'Delayed response' });
 };
 ```
 
@@ -110,7 +108,7 @@ const mock = new MockAdapter(api, { delayResponse: 1000 }); // 1 second
 ### Check Request Headers
 
 ```typescript
-mock.onGet(`${Config.API_BASE_URL}/protected`).reply(config => {
+mock.onGet(`${Config.API_BASE_URL}/protected`).reply((config) => {
   const token = config.headers?.Authorization;
 
   if (!token) {

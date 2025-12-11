@@ -26,7 +26,7 @@ export const useLogin = () => {
   // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: (data: LoginRequest) => login(data),
-    onSuccess: response => {
+    onSuccess: (response) => {
       setAuth(response.user, {
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
@@ -46,7 +46,7 @@ export const useRegister = () => {
   // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: (data: RegisterRequest) => register(data),
-    onSuccess: response => {
+    onSuccess: (response) => {
       setAuth(response.user, {
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
@@ -103,7 +103,7 @@ export const useUpdateProfile = () => {
   // useCustomMutation can be used here if additional logging/tracking is needed
   return useMutation({
     mutationFn: updateProfile,
-    onSuccess: updatedUser => {
+    onSuccess: (updatedUser) => {
       queryClient.setQueryData(authKeys.currentUser(), updatedUser);
       queryClient.invalidateQueries({ queryKey: authKeys.currentUser() });
     },

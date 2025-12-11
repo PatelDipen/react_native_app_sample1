@@ -21,6 +21,7 @@ API Service
 ## Features
 
 ### 1. **Automatic Logging (Development Mode)**
+
 ```typescript
 🔄 [Query] Fetching: ["auth","currentUser"]
 ✅ [Query] Success: ["auth","currentUser"] (245ms)
@@ -30,12 +31,15 @@ API Service
 ```
 
 ### 2. **Performance Tracking**
+
 - Measures query/mutation execution time
 - Logs duration in milliseconds
 - Useful for identifying slow endpoints
 
 ### 3. **Extensible Design**
+
 You can easily add:
+
 - Custom loading state tracking
 - Analytics integration (Google Analytics, Mixpanel, etc.)
 - Error reporting (Sentry, Crashlytics)
@@ -45,6 +49,7 @@ You can easily add:
 ## Usage
 
 ### Before (Direct React Query):
+
 ```typescript
 import { useQuery, useMutation } from '@tanstack/react-query';
 
@@ -57,6 +62,7 @@ export const useMyData = () => {
 ```
 
 ### After (With Middle Layer):
+
 ```typescript
 import { useCustomQuery } from '@/hooks/useCustomQuery';
 
@@ -102,20 +108,24 @@ useEffect(() => {
 ## Benefits
 
 ### ✅ Separation of Concerns
+
 - Business logic in your hooks
 - Cross-cutting concerns in middle layer
 - React Query handles caching/fetching
 
 ### ✅ DRY (Don't Repeat Yourself)
+
 - Add logging once, applies to all queries/mutations
 - No need to add console.log in every hook
 
 ### ✅ Easy to Extend
+
 - Add analytics: Track API usage patterns
 - Add monitoring: Send metrics to APM tools
 - Add debugging: Enhanced dev tools integration
 
 ### ✅ Type-Safe
+
 - Full TypeScript support
 - Same API as React Query
 - No type information lost
@@ -123,6 +133,7 @@ useEffect(() => {
 ## Example Extensions
 
 ### Analytics Integration:
+
 ```typescript
 export const useCustomMutation = (options) => {
   const mutation = useMutation({
@@ -133,7 +144,7 @@ export const useCustomMutation = (options) => {
         mutation: options.mutationKey,
         duration: Date.now() - startTime,
       });
-      
+
       options.onSuccess?.(data, variables, context);
     },
   });
@@ -142,6 +153,7 @@ export const useCustomMutation = (options) => {
 ```
 
 ### Error Reporting:
+
 ```typescript
 if (query.isError) {
   // Send to Sentry
@@ -155,6 +167,7 @@ if (query.isError) {
 ```
 
 ### Rate Limiting Detection:
+
 ```typescript
 if (query.isError && query.error.status === 429) {
   console.warn('⚠️ Rate limit hit for:', options.queryKey);
@@ -165,7 +178,7 @@ if (query.isError && query.error.status === 429) {
 
 ## Best Practices
 
-1. **Keep logging in __DEV__ only** - Don't log in production
+1. **Keep logging in **DEV** only** - Don't log in production
 2. **Don't break original callbacks** - Always call `options.onSuccess?.()` etc.
 3. **Use meaningful mutation keys** - Helps with debugging
 4. **Monitor performance** - Track slow queries/mutations

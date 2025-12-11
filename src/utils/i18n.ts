@@ -22,10 +22,7 @@ const getNestedValue = (obj: any, path: string): string => {
 };
 
 // Simple string interpolation
-const interpolate = (
-  str: string,
-  params?: Record<string, string | number>,
-): string => {
+const interpolate = (str: string, params?: Record<string, string | number>): string => {
   if (!params) return str;
 
   return Object.keys(params).reduce((result, key) => {
@@ -33,12 +30,8 @@ const interpolate = (
   }, str);
 };
 
-export const t = (
-  key: TranslationKey,
-  params?: Record<string, string | number>,
-): string => {
-  const translation =
-    translations[currentLanguage as keyof typeof translations];
+export const t = (key: TranslationKey, params?: Record<string, string | number>): string => {
+  const translation = translations[currentLanguage as keyof typeof translations];
   const value = getNestedValue(translation, key);
   return interpolate(value, params);
 };

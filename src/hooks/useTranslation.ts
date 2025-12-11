@@ -13,12 +13,9 @@ type TranslationKey = NestedKeyOf<typeof translations.en>;
 export const useTranslation = () => {
   const [language, setCurrentLanguage] = useState(getCurrentLanguage());
 
-  const translate = useCallback(
-    (key: TranslationKey, params?: Record<string, string | number>) => {
-      return t(key, params);
-    },
-    [],
-  );
+  const translate = useCallback((key: TranslationKey, params?: Record<string, string | number>) => {
+    return t(key, params);
+  }, []);
 
   const setLanguage = useCallback((lang: keyof typeof translations) => {
     setLang(lang);

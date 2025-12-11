@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+build/
+dist/
+*.bundle.js
+
+# Native folders
+android/
+ios/
+*.xcodeproj
+*.xcworkspace
+Pods/
+
+# Generated files
+coverage/
+.expo/
+.expo-shared/
+
+# Environment
+.env
+.env.*
+
+# Other
+*.log
+.DS_Store

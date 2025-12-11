@@ -23,9 +23,7 @@ export const InsuranceCard: React.FC<InsuranceCardProps> = ({ insurance }) => {
 
       <View style={styles.row}>
         <CustomText style={styles.label}>Insured Sum:</CustomText>
-        <CustomText style={styles.value}>
-          {formatCurrency(insurance.insuredSum)}
-        </CustomText>
+        <CustomText style={styles.value}>{formatCurrency(insurance.insuredSum)}</CustomText>
       </View>
 
       <View style={styles.row}>
