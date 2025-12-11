@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { useGlobalLoading } from '@/hooks/useGlobalLoading';
 import Header from './Header';
@@ -26,6 +27,7 @@ interface ScreenWrapperProps {
   onBackPress?: () => void;
   loading?: boolean;
   keyboardAvoiding?: boolean;
+  keyboardAware?: boolean; // Use KeyboardAwareScrollView for better form UX
   statusBarStyle?: 'dark-content' | 'light-content';
   maxWidth?: number; // Max width for iPad content
   centerContent?: boolean; // Center content on iPad
@@ -42,6 +44,7 @@ export default function ScreenWrapper({
   onBackPress,
   loading = false,
   keyboardAvoiding = false,
+  keyboardAware = false,
   statusBarStyle = 'dark-content',
   maxWidth = 768,
   centerContent = true,
@@ -75,6 +78,22 @@ export default function ScreenWrapper({
     }
 
     const contentContainer = tablet && centerContent ? styles.centeredContent : undefined;
+
+    // Use KeyboardAwareScrollView for forms with better keyboard handling
+    if (keyboardAware) {
+      return (
+        <KeyboardAwareScrollView
+          style={styles.scrollView}
+          contentContainerStyle={[styles.scrollContent, contentContainer]}
+          showsVerticalScrollIndicator={false}
+          enableOnAndroid
+          extraScrollHeight={20}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={[styles.innerContent, { width: contentWidth }]}>{children}</View>
+        </KeyboardAwareScrollView>
+      );
+    }
 
     if (scrollable) {
       return (
@@ -112,7 +131,7 @@ export default function ScreenWrapper({
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle={statusBarStyle} />
-      {keyboardAvoiding ? (
+      {keyboardAvoiding && !keyboardAware ? (
         <KeyboardAvoidingView
           style={styles.flex}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

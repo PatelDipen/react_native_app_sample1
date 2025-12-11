@@ -45,7 +45,7 @@ export default function Signin({ navigation, route }: SigninProps) {
   const isLoading = isSubmitting || loginMutation.isPending;
 
   return (
-    <ScreenWrapper headerTitle={t('auth.signIn')} keyboardAvoiding>
+    <ScreenWrapper headerTitle={t('auth.signIn')} keyboardAware>
       <FormProvider {...form}>
         <View style={styles.container}>
           <ControlledTextInput
